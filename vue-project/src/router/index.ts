@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import Bookmarks from '@/views/Bookmarks.vue'
+import MarkReads from '@/views/MarkReads.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,9 +11,9 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/bookmarks',
-      name: 'Bookmarks',
-      component: Bookmarks,
+      path: '/saved/news',
+      name: 'markReads',
+      component: MarkReads,
     },
   ],
 })
