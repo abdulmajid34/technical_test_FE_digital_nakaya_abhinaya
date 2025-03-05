@@ -118,6 +118,16 @@ onMounted(() => {
             <div class="news-content">
               <h5 class="text-light">{{ listDataNews[0]?.title || 'Title Not Found' }}</h5>
               <p class="text-light">{{ listDataNews[0]?.description || 'No Description' }}</p>
+              <p class="text-light">
+                Source: {{ listDataNews[0]?.source?.name || 'Source Not Found' }}
+              </p>
+              <p class="text-light">Author: {{ listDataNews[0]?.author || 'Author Not Found' }}</p>
+              <p class="text-light">
+                Published:
+                {{
+                  formatPublishedDate(listDataNews[0]?.publishedAt) || 'Published Date Not Found'
+                }}
+              </p>
             </div>
           </div>
         </div>
@@ -130,6 +140,12 @@ onMounted(() => {
             <div class="news-image" :style="{ backgroundImage: `url(${list.urlToImage || ''})` }">
               <div class="news-content">
                 <h6 class="text-light">{{ list.title }}</h6>
+                <p class="text-light">Source: {{ list.source?.name || 'Source Not Found' }}</p>
+                <p class="text-light">Author: {{ list.author || 'Author Not Found' }}</p>
+                <p class="text-light">
+                  Published:
+                  {{ formatPublishedDate(list.publishedAt) || 'Published Date Not Found' }}
+                </p>
               </div>
             </div>
           </div>
@@ -153,6 +169,11 @@ onMounted(() => {
             <div class="news-image" :style="{ backgroundImage: `url(${item.urlToImage || ''})` }">
               <div class="news-content">
                 <h6 class="text-light">{{ item.title }}</h6>
+                <p class="text-light">Source: {{ item.source?.name || 'Source Not Found' }}</p>
+                <p class="text-light">Author: {{ item.author || 'Author Not Found' }}</p>
+                <p class="text-light">
+                  Published: {{ item.publishedAt || 'Published Date Not Found' }}
+                </p>
               </div>
             </div>
           </div>
@@ -176,6 +197,13 @@ onMounted(() => {
             <div class="news-content">
               <h5 class="text-light">{{ listDataNews[5]?.title || 'Title Not Found' }}</h5>
               <p class="text-light">{{ listDataNews[5]?.description || 'No Description' }}</p>
+              <p class="text-light">
+                Source: {{ listDataNews[5]?.source?.name || 'Source Not Found' }}
+              </p>
+              <p class="text-light">Author: {{ listDataNews[5]?.author || 'Author Not Found' }}</p>
+              <p class="text-light">
+                Published: {{ listDataNews[5]?.publishedAt || 'Published Date Not Found' }}
+              </p>
             </div>
           </div>
         </div>

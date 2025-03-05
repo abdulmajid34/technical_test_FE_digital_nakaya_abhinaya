@@ -12,7 +12,7 @@ const { listMarkReads } = storeToRefs(fetchStore)
   <NavbarCategory />
   <div class="container mt-4">
     <h1>My News Reading List</h1>
-    <div class="row g-3">
+    <div v-if="listMarkReads.length !== 0" class="row g-3">
       <div class="col-md-4" v-for="read in listMarkReads" :key="read.url">
         <div class="card">
           <img
@@ -26,6 +26,9 @@ const { listMarkReads } = storeToRefs(fetchStore)
           </div>
         </div>
       </div>
+    </div>
+    <div v-else>
+      <h4 class="text-center">have no saved news</h4>
     </div>
   </div>
 </template>
