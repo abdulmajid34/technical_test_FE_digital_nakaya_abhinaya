@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { useFetchStore } from '../stores/fetchStore.ts'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const fetchStore = useFetchStore()
 const { filterCategory } = storeToRefs(fetchStore)
 const { fetchListNews } = useFetchStore()
 
 const filteredCategory = (val) => {
-  console.log(val, 'val')
-  filterCategory.value = val
-  fetchListNews()
+  if (router.currentRoute.value.path !== '/saved/news') {
+    filterCategory.value = val
+    fetchListNews()
+  }
 }
 </script>
 
@@ -35,41 +38,78 @@ const filteredCategory = (val) => {
         >
           <li class="nav-item">
             <a
-              class="nav-link active text-light fw-bold"
+              class="nav-link text-light fw-bold"
+              :class="{
+                'active-category':
+                  filterCategory === '' && router.currentRoute.value.path !== '/saved/news',
+              }"
               aria-current="page"
               @click="filteredCategory('')"
               >All</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light fw-bold" @click="filteredCategory('business')"
+            <a
+              class="nav-link text-light fw-bold"
+              :class="{ 'active-category': filterCategory === 'business' }"
+              @click="filteredCategory('business')"
               >Business</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light fw-bold" @click="filteredCategory('entertainment')"
+            <a
+              class="nav-link text-light fw-bold"
+              :class="{ 'active-category': filterCategory === 'entertainment' }"
+              @click="filteredCategory('entertainment')"
               >Entertainment</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light fw-bold" @click="filteredCategory('general')">General</a>
+            <a
+              class="nav-link text-light fw-bold"
+              :class="{ 'active-category': filterCategory === 'general' }"
+              @click="filteredCategory('general')"
+              >General</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light fw-bold" @click="filteredCategory('health')">Health</a>
+            <a
+              class="nav-link text-light fw-bold"
+              :class="{ 'active-category': filterCategory === 'health' }"
+              @click="filteredCategory('health')"
+              >Health</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light fw-bold" @click="filteredCategory('science')">Science</a>
+            <a
+              class="nav-link text-light fw-bold"
+              :class="{ 'active-category': filterCategory === 'science' }"
+              @click="filteredCategory('science')"
+              >Science</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light fw-bold" @click="filteredCategory('sports')">Sports</a>
+            <a
+              class="nav-link text-light fw-bold"
+              :class="{ 'active-category': filterCategory === 'sports' }"
+              @click="filteredCategory('sports')"
+              >Sports</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light fw-bold" @click="filteredCategory('technology')"
+            <a
+              class="nav-link text-light fw-bold"
+              :class="{ 'active-category': filterCategory === 'technology' }"
+              @click="filteredCategory('technology')"
               >Technology</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light fw-bold" href="/saved/news">
+            <a
+              class="nav-link text-light fw-bold"
+              :class="{ 'active-category': router.currentRoute.value.path === '/saved/news' }"
+              href="/saved/news"
+            >
               <i class="bi bi-bookmark-fill"></i>
               Saves News
             </a>
@@ -79,3 +119,30 @@ const filteredCategory = (val) => {
     </div>
   </nav>
 </template>
+
+<style scoped>
+.active-category {
+  position: relative;
+  color: #fff !important;
+}
+
+.active-category::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+.nav-link {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+}
+</style>
