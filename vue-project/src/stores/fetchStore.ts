@@ -30,13 +30,14 @@ export const useFetchStore = defineStore('fetch', () => {
   const listDataNews = ref<NewsData[]>([])
   const isLoading = ref<boolean>(true)
   const filterCategory = ref<string>('')
+  const filterCountry = ref<string>('us')
 
   // fetch api news
   const fetchListNews = async () => {
     try {
       isLoading.value = true
       const response = await axios.get(
-        `${baseURL.value}?apiKey=${apiKey.value}&country=us&category=${filterCategory.value}`,
+        `${baseURL.value}?apiKey=${apiKey.value}&country=${filterCountry.value}&category=${filterCategory.value}`,
       )
       listDataNews.value = response.data.articles
       console.log(response.data.articles, 'resp')
@@ -49,6 +50,7 @@ export const useFetchStore = defineStore('fetch', () => {
 
   return {
     isLoading,
+    filterCountry,
     filterCategory,
     listDataNews,
     fetchListNews,

@@ -6,13 +6,18 @@ import NavbarCategory from '../components/NavbarCategory.vue'
 import SkeletonLoader from '@/components/SkeletonLoader.vue'
 
 const fetchStore = useFetchStore()
-const { filterCategory, isLoading, listDataNews } = storeToRefs(fetchStore)
+const { filterCountry, filterCategory, isLoading, listDataNews } = storeToRefs(fetchStore)
 const { fetchListNews } = useFetchStore()
 
 // function
 // const openNews = (item) => {
 //   console.log(item, 'item')
 // }
+
+const filteredCountry = () => {
+  // filterCountry.value = _value
+  fetchListNews()
+}
 
 onMounted(() => {
   fetchListNews()
@@ -72,10 +77,10 @@ onMounted(() => {
     <div v-else>
       <div class="d-flex justify-content-between">
         <h4 class="my-auto">{{ filterCategory ? filterCategory : 'All' }}</h4>
-        <form>
+        <form @change.prevent="filteredCountry">
           <div class="mb-3">
-            <label for="filterCountry" class="form-label">Country</label>
-            <select class="form-select" id="filterCountry" aria-label="Default select example">
+            <label class="form-label">Country</label>
+            <select v-model="filterCountry" class="form-select" aria-label="Default select example">
               <option selected value="us">us</option>
               <option value="id">Indonesia</option>
               <option value="jp">Japan</option>
