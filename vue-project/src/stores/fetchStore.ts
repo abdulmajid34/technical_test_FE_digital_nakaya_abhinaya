@@ -17,11 +17,11 @@ interface NewsData {
   sources: NewsSource
 }
 
-interface BookmarkData {
-  title: string
-  imageUrl: string
-  linkUrl: string
-}
+// interface BookmarkData {
+//   title: string
+//   imageUrl: string
+//   linkUrl: string
+// }
 
 export const useFetchStore = defineStore('fetch', () => {
   // state
@@ -29,13 +29,17 @@ export const useFetchStore = defineStore('fetch', () => {
   const apiKey = ref<string>(import.meta.env.VITE_API_KEY)
   const listDataNews = ref<NewsData[]>([])
   const isLoading = ref<boolean>(true)
+  const filterCategory = ref<string>('')
 
   // fetch api news
   const fetchListNews = async () => {
     try {
       isLoading.value = true
-      const response = await axios.get(`${baseURL.value}?apiKey=${apiKey.value}&country=us`)
+      const response = await axios.get(
+        `${baseURL.value}?apiKey=${apiKey.value}&country=us&category=${filterCategory.value}`,
+      )
       listDataNews.value = response.data.articles
+      console.log(response.data.articles, 'resp')
     } catch (error) {
       console.error(error)
     } finally {
@@ -45,6 +49,7 @@ export const useFetchStore = defineStore('fetch', () => {
 
   return {
     isLoading,
+    filterCategory,
     listDataNews,
     fetchListNews,
   }
