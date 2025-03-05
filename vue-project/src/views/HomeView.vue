@@ -4,6 +4,7 @@ import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import NavbarCategory from '../components/NavbarCategory.vue'
 import SkeletonLoader from '@/components/SkeletonLoader.vue'
+import imageNotFound from '../assets/image_not_found.png'
 
 const fetchStore = useFetchStore()
 const { listMarkReads, filterCountry, filterCategory, isLoading, listDataNews } =
@@ -113,7 +114,7 @@ onMounted(() => {
         >
           <div
             class="news-image"
-            :style="{ backgroundImage: `url(${listDataNews[0]?.urlToImage || ''})` }"
+            :style="{ backgroundImage: `url(${listDataNews[0]?.urlToImage || imageNotFound})` }"
           >
             <div class="news-content">
               <h5 class="text-light">{{ listDataNews[0]?.title || 'Title Not Found' }}</h5>
@@ -137,7 +138,10 @@ onMounted(() => {
             class="content-card mb-3 position-relative"
             style="height: 150px"
           >
-            <div class="news-image" :style="{ backgroundImage: `url(${list.urlToImage || ''})` }">
+            <div
+              class="news-image"
+              :style="{ backgroundImage: `url(${list.urlToImage || imageNotFound})` }"
+            >
               <div class="news-content">
                 <h6 class="text-light">{{ list.title }}</h6>
                 <p class="text-light">Source: {{ list.source?.name || 'Source Not Found' }}</p>
@@ -150,7 +154,10 @@ onMounted(() => {
             </div>
           </div>
           <div @click="openNews(list)" class="content-card position-relative" style="height: 150px">
-            <div class="news-image" :style="{ backgroundImage: `url(${list.urlToImage || ''})` }">
+            <div
+              class="news-image"
+              :style="{ backgroundImage: `url(${list.urlToImage || imageNotFound})` }"
+            >
               <div class="news-content">
                 <p class="text-light">{{ list.description }}</p>
               </div>

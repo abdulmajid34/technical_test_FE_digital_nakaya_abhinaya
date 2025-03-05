@@ -2,7 +2,7 @@
 import { useFetchStore } from '../stores/fetchStore.ts'
 import { storeToRefs } from 'pinia'
 import NavbarCategory from '../components/NavbarCategory.vue'
-import imageNotFound from '../../public/image_not_found.png'
+import imageNotFound from '../assets/image_not_found.png'
 
 const fetchStore = useFetchStore()
 const { listMarkReads } = storeToRefs(fetchStore)
