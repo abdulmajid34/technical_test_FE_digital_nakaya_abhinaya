@@ -1,5 +1,31 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useFetchStore } from '../stores/fetchStore.ts'
+import { storeToRefs } from 'pinia'
+import NavbarCategory from '../components/NavbarCategory.vue'
+import imageNotFound from '../../public/image_not_found.png'
+
+const fetchStore = useFetchStore()
+const { listMarkReads } = storeToRefs(fetchStore)
+</script>
 
 <template>
-  <h1>Welcome to MarkReads</h1>
+  <NavbarCategory />
+  <div class="container mt-4">
+    <h1>My News Reading List</h1>
+    <div class="row g-3">
+      <div class="col-md-4" v-for="read in listMarkReads" :key="read.url">
+        <div class="card">
+          <img
+            :src="read.urlToImage ? read.urlToImage : imageNotFound"
+            class="card-img-top"
+            alt="News Image"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ read.title }}</h5>
+            <a :href="read.url" target="_blank" class="btn btn-primary">Read More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

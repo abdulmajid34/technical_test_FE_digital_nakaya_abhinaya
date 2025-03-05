@@ -6,16 +6,26 @@ import NavbarCategory from '../components/NavbarCategory.vue'
 import SkeletonLoader from '@/components/SkeletonLoader.vue'
 
 const fetchStore = useFetchStore()
-const { filterCountry, filterCategory, isLoading, listDataNews } = storeToRefs(fetchStore)
+const { listMarkReads, filterCountry, filterCategory, isLoading, listDataNews } =
+  storeToRefs(fetchStore)
 const { fetchListNews } = useFetchStore()
 
 // function
-// const openNews = (item) => {
-//   console.log(item, 'item')
-// }
+const openNews = (val) => {
+  // listMarkReads.value = val
+  if (!listMarkReads.value.some((item) => item.url === val.url)) {
+    listMarkReads.value.push({
+      title: val.title,
+      url: val.url,
+      urlToImage: val.urlToImage,
+    })
+  }
+  localStorage.setItem('readNews', JSON.stringify(listMarkReads.value))
+
+  window.open(val.url, '_blank')
+}
 
 const filteredCountry = () => {
-  // filterCountry.value = _value
   fetchListNews()
 }
 
@@ -95,8 +105,12 @@ onMounted(() => {
       </div>
 
       <!-- GRID 1 -->
-      <div class="row g-3 mb-2">
-        <div class="col-md-5 border p-3 position-relative" style="height: 315px">
+      <div class="row g-3 mb-2" style="cursor: pointer">
+        <div
+          class="content-card col-md-5 position-relative"
+          @click="openNews(listDataNews[0])"
+          style="height: 315px"
+        >
           <div
             class="news-image"
             :style="{ backgroundImage: `url(${listDataNews[0]?.urlToImage || ''})` }"
@@ -108,14 +122,18 @@ onMounted(() => {
           </div>
         </div>
         <div class="col-md" v-for="(list, idx) in listDataNews.slice(1, 3)" :key="idx">
-          <div class="border p-3 mb-3 position-relative" style="height: 150px">
+          <div
+            @click="openNews(list)"
+            class="content-card mb-3 position-relative"
+            style="height: 150px"
+          >
             <div class="news-image" :style="{ backgroundImage: `url(${list.urlToImage || ''})` }">
               <div class="news-content">
                 <h6 class="text-light">{{ list.title }}</h6>
               </div>
             </div>
           </div>
-          <div class="border p-3 position-relative" style="height: 150px">
+          <div @click="openNews(list)" class="content-card position-relative" style="height: 150px">
             <div class="news-image" :style="{ backgroundImage: `url(${list.urlToImage || ''})` }">
               <div class="news-content">
                 <p class="text-light">{{ list.description }}</p>
@@ -125,16 +143,20 @@ onMounted(() => {
         </div>
       </div>
       <!-- GRID 2 -->
-      <div class="row g-3">
+      <div class="row g-3" style="cursor: pointer">
         <div class="col-md" v-for="(item, index) in listDataNews.slice(3, 5)" :key="index">
-          <div class="border p-3 mb-3 position-relative" style="height: 150px">
+          <div
+            @click="openNews(item)"
+            class="content-card mb-3 position-relative"
+            style="height: 150px"
+          >
             <div class="news-image" :style="{ backgroundImage: `url(${item.urlToImage || ''})` }">
               <div class="news-content">
                 <h6 class="text-light">{{ item.title }}</h6>
               </div>
             </div>
           </div>
-          <div class="border p-3 position-relative" style="height: 150px">
+          <div @click="openNews(item)" class="content-card position-relative" style="height: 150px">
             <div class="news-image" :style="{ backgroundImage: `url(${item.urlToImage || ''})` }">
               <div class="news-content">
                 <p class="text-light">{{ item.description }}</p>
@@ -142,7 +164,11 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div class="col-md-5 border p-3 position-relative" style="height: 315px">
+        <div
+          @click="openNews(listDataNews[5])"
+          class="col-md-5 content-card position-relative"
+          style="height: 315px"
+        >
           <div
             class="news-image"
             :style="{ backgroundImage: `url(${listDataNews[5]?.urlToImage || ''})` }"
@@ -156,22 +182,12 @@ onMounted(() => {
       </div>
     </div>
   </div>
-  <!--
-  <div>
-    <input v-model="searchQuery" placeholder="Search news..." />
-    <div v-if="isLoading" class="skeleton-loader">Loading...</div>
-    <div v-else>
-      <div v-for="item in listDataNews" :key="item.url" class="news-item" @click="openNews(item)">
-        <img :src="item.urlToImage" alt="News Image" class="news-image" />
-        <h3>{{ item.title }}</h3>
-        <p>{{ item.publishedAt }}</p>
-      </div>
-    </div>
-  </div>
-  -->
 </template>
 
 <style scoped>
+.content-card:hover {
+  box-shadow: 5px 5px grey;
+}
 .news-image {
   position: absolute;
   top: 0;
