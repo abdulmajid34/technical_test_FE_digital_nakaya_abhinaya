@@ -86,131 +86,152 @@ onMounted(() => {
       </div>
     </div>
     <div v-else>
-      <div class="d-flex justify-content-between">
-        <h4 class="my-auto">{{ filterCategory ? filterCategory : 'All' }}</h4>
-        <form @change.prevent="filteredCountry">
-          <div class="mb-3">
-            <label class="form-label">Country</label>
-            <select v-model="filterCountry" class="form-select" aria-label="Default select example">
-              <option selected value="us">us</option>
-              <option value="id">Indonesia</option>
-              <option value="jp">Japan</option>
-              <option value="fr">France</option>
-              <option value="au">Australia</option>
-              <option value="sa">Saudi Arabia</option>
-              <option value="gb">Inggris</option>
-              <option value="ru">Russia</option>
-            </select>
-          </div>
-        </form>
+      <div v-if="listDataNews.length === 0">
+        <h1 class="text-center text-secondary">Data Not Found</h1>
       </div>
-
-      <!-- GRID 1 -->
-      <div class="row g-3 mb-2" style="cursor: pointer">
-        <div
-          class="content-card col-md-5 position-relative"
-          @click="openNews(listDataNews[0])"
-          style="height: 315px"
-        >
-          <div
-            class="news-image"
-            :style="{ backgroundImage: `url(${listDataNews[0]?.urlToImage || imageNotFound})` }"
-          >
-            <div class="news-content">
-              <h5 class="text-light">{{ listDataNews[0]?.title || 'Title Not Found' }}</h5>
-              <p class="text-light">{{ listDataNews[0]?.description || 'No Description' }}</p>
-              <p class="text-light">
-                Source: {{ listDataNews[0]?.source?.name || 'Source Not Found' }}
-              </p>
-              <p class="text-light">Author: {{ listDataNews[0]?.author || 'Author Not Found' }}</p>
-              <p class="text-light">
-                Published:
-                {{
-                  formatPublishedDate(listDataNews[0]?.publishedAt) || 'Published Date Not Found'
-                }}
-              </p>
+      <div v-else>
+        <div class="d-flex justify-content-between">
+          <h4 class="my-auto">{{ filterCategory ? filterCategory : 'All' }}</h4>
+          <form @change.prevent="filteredCountry">
+            <div class="mb-3">
+              <label class="form-label">Country</label>
+              <select
+                v-model="filterCountry"
+                class="form-select"
+                aria-label="Default select example"
+              >
+                <option selected value="us">us</option>
+                <option value="id">Indonesia</option>
+                <option value="jp">Japan</option>
+                <option value="fr">France</option>
+                <option value="au">Australia</option>
+                <option value="sa">Saudi Arabia</option>
+                <option value="gb">Inggris</option>
+                <option value="ru">Russia</option>
+              </select>
             </div>
-          </div>
+          </form>
         </div>
-        <div class="col-md" v-for="(list, idx) in listDataNews.slice(1, 3)" :key="idx">
+
+        <!-- GRID 1 -->
+        <div class="row g-3 mb-2" style="cursor: pointer">
           <div
-            @click="openNews(list)"
-            class="content-card mb-3 position-relative"
-            style="height: 150px"
+            class="content-card col-md-5 position-relative"
+            @click="openNews(listDataNews[0])"
+            style="height: 315px"
           >
             <div
               class="news-image"
-              :style="{ backgroundImage: `url(${list.urlToImage || imageNotFound})` }"
+              :style="{ backgroundImage: `url(${listDataNews[0]?.urlToImage || imageNotFound})` }"
             >
               <div class="news-content">
-                <h6 class="text-light">{{ list.title }}</h6>
-                <p class="text-light">Source: {{ list.source?.name || 'Source Not Found' }}</p>
-                <p class="text-light">Author: {{ list.author || 'Author Not Found' }}</p>
+                <h5 class="text-light">{{ listDataNews[0]?.title || 'Title Not Found' }}</h5>
+                <p class="text-light">{{ listDataNews[0]?.description || 'No Description' }}</p>
+                <p class="text-light">
+                  Source: {{ listDataNews[0]?.source?.name || 'Source Not Found' }}
+                </p>
+                <p class="text-light">
+                  Author: {{ listDataNews[0]?.author || 'Author Not Found' }}
+                </p>
                 <p class="text-light">
                   Published:
-                  {{ formatPublishedDate(list.publishedAt) || 'Published Date Not Found' }}
+                  {{
+                    formatPublishedDate(listDataNews[0]?.publishedAt) || 'Published Date Not Found'
+                  }}
                 </p>
               </div>
             </div>
           </div>
-          <div @click="openNews(list)" class="content-card position-relative" style="height: 150px">
+          <div class="col-md" v-for="(list, idx) in listDataNews.slice(1, 3)" :key="idx">
+            <div
+              @click="openNews(list)"
+              class="content-card mb-3 position-relative"
+              style="height: 150px"
+            >
+              <div
+                class="news-image"
+                :style="{ backgroundImage: `url(${list.urlToImage || imageNotFound})` }"
+              >
+                <div class="news-content">
+                  <h6 class="text-light">{{ list.title }}</h6>
+                  <p class="text-light">Source: {{ list.source?.name || 'Source Not Found' }}</p>
+                  <p class="text-light">Author: {{ list.author || 'Author Not Found' }}</p>
+                  <p class="text-light">
+                    Published:
+                    {{ formatPublishedDate(list.publishedAt) || 'Published Date Not Found' }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              @click="openNews(list)"
+              class="content-card position-relative"
+              style="height: 150px"
+            >
+              <div
+                class="news-image"
+                :style="{ backgroundImage: `url(${list.urlToImage || imageNotFound})` }"
+              >
+                <div class="news-content">
+                  <p class="text-light">{{ list.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- GRID 2 -->
+        <div class="row g-3" style="cursor: pointer">
+          <div class="col-md" v-for="(item, index) in listDataNews.slice(3, 5)" :key="index">
+            <div
+              @click="openNews(item)"
+              class="content-card mb-3 position-relative"
+              style="height: 150px"
+            >
+              <div class="news-image" :style="{ backgroundImage: `url(${item.urlToImage || ''})` }">
+                <div class="news-content">
+                  <h6 class="text-light">{{ item.title }}</h6>
+                  <p class="text-light">Source: {{ item.source?.name || 'Source Not Found' }}</p>
+                  <p class="text-light">Author: {{ item.author || 'Author Not Found' }}</p>
+                  <p class="text-light">
+                    Published: {{ item.publishedAt || 'Published Date Not Found' }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              @click="openNews(item)"
+              class="content-card position-relative"
+              style="height: 150px"
+            >
+              <div class="news-image" :style="{ backgroundImage: `url(${item.urlToImage || ''})` }">
+                <div class="news-content">
+                  <p class="text-light">{{ item.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            @click="openNews(listDataNews[5])"
+            class="col-md-5 content-card position-relative"
+            style="height: 315px"
+          >
             <div
               class="news-image"
-              :style="{ backgroundImage: `url(${list.urlToImage || imageNotFound})` }"
+              :style="{ backgroundImage: `url(${listDataNews[5]?.urlToImage || ''})` }"
             >
               <div class="news-content">
-                <p class="text-light">{{ list.description }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- GRID 2 -->
-      <div class="row g-3" style="cursor: pointer">
-        <div class="col-md" v-for="(item, index) in listDataNews.slice(3, 5)" :key="index">
-          <div
-            @click="openNews(item)"
-            class="content-card mb-3 position-relative"
-            style="height: 150px"
-          >
-            <div class="news-image" :style="{ backgroundImage: `url(${item.urlToImage || ''})` }">
-              <div class="news-content">
-                <h6 class="text-light">{{ item.title }}</h6>
-                <p class="text-light">Source: {{ item.source?.name || 'Source Not Found' }}</p>
-                <p class="text-light">Author: {{ item.author || 'Author Not Found' }}</p>
+                <h5 class="text-light">{{ listDataNews[5]?.title || 'Title Not Found' }}</h5>
+                <p class="text-light">{{ listDataNews[5]?.description || 'No Description' }}</p>
                 <p class="text-light">
-                  Published: {{ item.publishedAt || 'Published Date Not Found' }}
+                  Source: {{ listDataNews[5]?.source?.name || 'Source Not Found' }}
+                </p>
+                <p class="text-light">
+                  Author: {{ listDataNews[5]?.author || 'Author Not Found' }}
+                </p>
+                <p class="text-light">
+                  Published: {{ listDataNews[5]?.publishedAt || 'Published Date Not Found' }}
                 </p>
               </div>
-            </div>
-          </div>
-          <div @click="openNews(item)" class="content-card position-relative" style="height: 150px">
-            <div class="news-image" :style="{ backgroundImage: `url(${item.urlToImage || ''})` }">
-              <div class="news-content">
-                <p class="text-light">{{ item.description }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          @click="openNews(listDataNews[5])"
-          class="col-md-5 content-card position-relative"
-          style="height: 315px"
-        >
-          <div
-            class="news-image"
-            :style="{ backgroundImage: `url(${listDataNews[5]?.urlToImage || ''})` }"
-          >
-            <div class="news-content">
-              <h5 class="text-light">{{ listDataNews[5]?.title || 'Title Not Found' }}</h5>
-              <p class="text-light">{{ listDataNews[5]?.description || 'No Description' }}</p>
-              <p class="text-light">
-                Source: {{ listDataNews[5]?.source?.name || 'Source Not Found' }}
-              </p>
-              <p class="text-light">Author: {{ listDataNews[5]?.author || 'Author Not Found' }}</p>
-              <p class="text-light">
-                Published: {{ listDataNews[5]?.publishedAt || 'Published Date Not Found' }}
-              </p>
             </div>
           </div>
         </div>
