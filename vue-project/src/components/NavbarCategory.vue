@@ -8,7 +8,7 @@ const fetchStore = useFetchStore()
 const { filterCategory } = storeToRefs(fetchStore)
 const { fetchListNews } = useFetchStore()
 
-const filteredCategory = (val) => {
+const filteredCategory = (val: string) => {
   if (router.currentRoute.value.path !== '/saved/news') {
     filterCategory.value = val
     fetchListNews()

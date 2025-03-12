@@ -13,16 +13,16 @@ const { listMarkReads } = storeToRefs(fetchStore)
   <div class="container mt-4">
     <h1>My News Reading List</h1>
     <div v-if="listMarkReads.length !== 0" class="row g-3">
-      <div class="col-md-4" v-for="read in listMarkReads" :key="read.url">
+      <div class="col-md-4" v-for="read in listMarkReads" :key="read.linkUrl">
         <div class="card">
           <img
-            :src="read.urlToImage ? read.urlToImage : imageNotFound"
+            :src="read.imageUrl ? read.imageUrl : imageNotFound"
             class="card-img-top"
             alt="News Image"
           />
           <div class="card-body">
             <h5 class="card-title">{{ read.title }}</h5>
-            <a :href="read.url" target="_blank" class="btn btn-primary">Read More</a>
+            <a :href="read.linkUrl" target="_blank" class="btn btn-primary">Read More</a>
           </div>
         </div>
       </div>

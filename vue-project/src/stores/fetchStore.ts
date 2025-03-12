@@ -10,10 +10,11 @@ interface NewsSource {
 interface NewsData {
   title: string
   description: string
-  newsUrl: string
-  imageNews: string
+  url: string
+  urlToImage: string
   content: string
   published: string
+  author: string
   sources: NewsSource
 }
 

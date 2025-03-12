@@ -12,13 +12,12 @@ const { listMarkReads, filterCountry, filterCategory, isLoading, listDataNews } 
 const { fetchListNews } = useFetchStore()
 
 // function
-const openNews = (val) => {
-  // listMarkReads.value = val
-  if (!listMarkReads.value.some((item) => item.url === val.url)) {
+const openNews = (val: { urlToImage: string; title: string; url: string }) => {
+  if (!listMarkReads.value.some((item) => item.linkUrl === val.url)) {
     listMarkReads.value.push({
       title: val.title,
-      url: val.url,
-      urlToImage: val.urlToImage,
+      imageUrl: val.urlToImage,
+      linkUrl: val.url,
     })
   }
   localStorage.setItem('readNews', JSON.stringify(listMarkReads.value))
@@ -28,6 +27,12 @@ const openNews = (val) => {
 
 const filteredCountry = () => {
   fetchListNews()
+}
+
+const formatPublishedDate = (dateString: string): string => {
+  if (!dateString) return 'Invalid Date'
+  const date = new Date(dateString)
+  return isNaN(date.getTime()) ? 'Invalid Date' : date.toLocaleDateString()
 }
 
 onMounted(() => {
@@ -128,7 +133,7 @@ onMounted(() => {
                 <h5 class="text-light">{{ listDataNews[0]?.title || 'Title Not Found' }}</h5>
                 <p class="text-light">{{ listDataNews[0]?.description || 'No Description' }}</p>
                 <p class="text-light">
-                  Source: {{ listDataNews[0]?.source?.name || 'Source Not Found' }}
+                  Source: {{ listDataNews[0]?.sources?.name || 'Source Not Found' }}
                 </p>
                 <p class="text-light">
                   Author: {{ listDataNews[0]?.author || 'Author Not Found' }}
@@ -136,7 +141,7 @@ onMounted(() => {
                 <p class="text-light">
                   Published:
                   {{
-                    formatPublishedDate(listDataNews[0]?.publishedAt) || 'Published Date Not Found'
+                    formatPublishedDate(listDataNews[0]?.published) || 'Published Date Not Found'
                   }}
                 </p>
               </div>
@@ -154,11 +159,11 @@ onMounted(() => {
               >
                 <div class="news-content">
                   <h6 class="text-light">{{ list.title }}</h6>
-                  <p class="text-light">Source: {{ list.source?.name || 'Source Not Found' }}</p>
+                  <p class="text-light">Source: {{ list.sources?.name || 'Source Not Found' }}</p>
                   <p class="text-light">Author: {{ list.author || 'Author Not Found' }}</p>
                   <p class="text-light">
                     Published:
-                    {{ formatPublishedDate(list.publishedAt) || 'Published Date Not Found' }}
+                    {{ formatPublishedDate(list.published) || 'Published Date Not Found' }}
                   </p>
                 </div>
               </div>
@@ -170,7 +175,7 @@ onMounted(() => {
             >
               <div
                 class="news-image"
-                :style="{ backgroundImage: `url(${list.urlToImage || imageNotFound})` }"
+                :style="{ backgroundImage: `url(${list.url || imageNotFound})` }"
               >
                 <div class="news-content">
                   <p class="text-light">{{ list.description }}</p>
@@ -190,10 +195,10 @@ onMounted(() => {
               <div class="news-image" :style="{ backgroundImage: `url(${item.urlToImage || ''})` }">
                 <div class="news-content">
                   <h6 class="text-light">{{ item.title }}</h6>
-                  <p class="text-light">Source: {{ item.source?.name || 'Source Not Found' }}</p>
+                  <p class="text-light">Source: {{ item.sources?.name || 'Source Not Found' }}</p>
                   <p class="text-light">Author: {{ item.author || 'Author Not Found' }}</p>
                   <p class="text-light">
-                    Published: {{ item.publishedAt || 'Published Date Not Found' }}
+                    Published: {{ item.published || 'Published Date Not Found' }}
                   </p>
                 </div>
               </div>
@@ -223,13 +228,13 @@ onMounted(() => {
                 <h5 class="text-light">{{ listDataNews[5]?.title || 'Title Not Found' }}</h5>
                 <p class="text-light">{{ listDataNews[5]?.description || 'No Description' }}</p>
                 <p class="text-light">
-                  Source: {{ listDataNews[5]?.source?.name || 'Source Not Found' }}
+                  Source: {{ listDataNews[5]?.sources?.name || 'Source Not Found' }}
                 </p>
                 <p class="text-light">
                   Author: {{ listDataNews[5]?.author || 'Author Not Found' }}
                 </p>
                 <p class="text-light">
-                  Published: {{ listDataNews[5]?.publishedAt || 'Published Date Not Found' }}
+                  Published: {{ listDataNews[5]?.published || 'Published Date Not Found' }}
                 </p>
               </div>
             </div>
