@@ -205,7 +205,7 @@ onMounted(() => {
                   <p class="text-light">Source: {{ item.sources?.name || 'Source Not Found' }}</p>
                   <p class="text-light">Author: {{ item.author || 'Author Not Found' }}</p>
                   <p class="text-light">
-                    Published: {{ item.publishedAt || 'Published Date Not Found' }}
+                    Published: {{ formatPublishedDate(item.publishedAt || 'Published Date Not Found') }}
                   </p>
                 </div>
               </div>
@@ -241,7 +241,7 @@ onMounted(() => {
                   Author: {{ listDataNews[5]?.author || 'Author Not Found' }}
                 </p>
                 <p class="text-light">
-                  Published: {{ listDataNews[5]?.publishedAt || 'Published Date Not Found' }}
+                  Published: {{ formatPublishedDate(listDataNews[5]?.publishedAt || 'Published Date Not Found') }}
                 </p>
               </div>
             </div>
