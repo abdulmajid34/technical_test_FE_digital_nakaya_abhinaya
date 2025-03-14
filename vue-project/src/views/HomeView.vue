@@ -29,10 +29,17 @@ const filteredCountry = () => {
   fetchListNews()
 }
 
-const formatPublishedDate = (dateString: string): string => {
-  if (!dateString) return 'Invalid Date'
-  const date = new Date(dateString)
-  return isNaN(date.getTime()) ? 'Invalid Date' : date.toLocaleDateString()
+const formatPublishedDate = (dateStr: string): string => {
+  if (!dateStr) return 'Invalid Date'
+  const date = new Date(dateStr)
+  if (isNaN(date.getTime())) return 'Invalid Date'
+  return new Intl.DateTimeFormat('id-ID', {
+    weekday: 'short',
+    day: '2-digit',
+    month: 'long',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date)
 }
 
 onMounted(() => {
@@ -141,7 +148,7 @@ onMounted(() => {
                 <p class="text-light">
                   Published:
                   {{
-                    formatPublishedDate(listDataNews[0]?.published) || 'Published Date Not Found'
+                    formatPublishedDate(listDataNews[0]?.publishedAt) || 'Published Date Not Found'
                   }}
                 </p>
               </div>
@@ -163,7 +170,7 @@ onMounted(() => {
                   <p class="text-light">Author: {{ list.author || 'Author Not Found' }}</p>
                   <p class="text-light">
                     Published:
-                    {{ formatPublishedDate(list.published) || 'Published Date Not Found' }}
+                    {{ formatPublishedDate(list.publishedAt) || 'Published Date Not Found' }}
                   </p>
                 </div>
               </div>
@@ -198,7 +205,7 @@ onMounted(() => {
                   <p class="text-light">Source: {{ item.sources?.name || 'Source Not Found' }}</p>
                   <p class="text-light">Author: {{ item.author || 'Author Not Found' }}</p>
                   <p class="text-light">
-                    Published: {{ item.published || 'Published Date Not Found' }}
+                    Published: {{ item.publishedAt || 'Published Date Not Found' }}
                   </p>
                 </div>
               </div>
@@ -234,7 +241,7 @@ onMounted(() => {
                   Author: {{ listDataNews[5]?.author || 'Author Not Found' }}
                 </p>
                 <p class="text-light">
-                  Published: {{ listDataNews[5]?.published || 'Published Date Not Found' }}
+                  Published: {{ listDataNews[5]?.publishedAt || 'Published Date Not Found' }}
                 </p>
               </div>
             </div>

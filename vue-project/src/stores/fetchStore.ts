@@ -13,7 +13,7 @@ interface NewsData {
   url: string
   urlToImage: string
   content: string
-  published: string
+  publishedAt: string
   author: string
   sources: NewsSource
 }
